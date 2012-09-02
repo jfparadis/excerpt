@@ -21,13 +21,13 @@
  * Download the "excerpt" folder and upload it to the third party directory of your ExpressionEngine folder.
  *
  * Usage:
- * {exp:excerpt chars=true}{content}{/exp:excerpt}   Use the default 200 characters
- * {exp:excerpt chars='500'}{content}{/exp:excerpt}  Use 500 characters
+ * {exp:sk_excerpt chars=true}{content}{/exp:sk_excerpt}   Use the default 200 characters
+ * {exp:sk_excerpt chars='500'}{content}{/exp:sk_excerpt}  Use 500 characters
  *
- * {exp:excerpt words=true}{content}{/exp:excerpt}   Use the default 50 words
- * {exp:excerpt words='55'}{content}{/exp:excerpt}   Use 55 words
+ * {exp:sk_excerpt words=true}{content}{/exp:sk_excerpt}   Use the default 50 words
+ * {exp:sk_excerpt words='55'}{content}{/exp:sk_excerpt}   Use 55 words
  *
- * {exp:excerpt words='55' more='...'}{content}{/exp:excerpt}   Also change the ellipsis to '...'
+ * {exp:sk_excerpt words='55' more='...'}{content}{/exp:sk_excerpt}   Also change the ellipsis to '...'
  *
  * Changelog:
  * 1.0.0 - Initial plugin
@@ -39,7 +39,7 @@ $plugin_info = array(
 	'pi_description'	=> 'Displays an automatic excerpt of the given text with [...] at the end',
 );
 
-class Excerpt {
+class Sk_Excerpt {
 
 	const default_word_count = 50;
 	const default_char_count = 200;
