@@ -12,7 +12,7 @@
  *
  * This plugin provides a similar functionality to the function the_excerpt() in Wordpress which
  * allows developers to display a post summary based on the number of words. This implementation
- * can also display a post summary based on a minimum the number of characters (in that case, the
+ * can also display a post summary based on a minimum number of characters (in that case, the
  * cut will be done at the next word boundary), which works better with languages like Chinese 
  * for which the concept of words are different. An ellipsis ([...] by default) is added at the
  * end of the excerpt.
