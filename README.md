@@ -20,13 +20,13 @@ end of the excerpt.
 Download the "excerpt" folder and upload it to the third party directory of your ExpressionEngine folder.
 
 ##Usage:
-{exp:excerpt chars=true}{content}{/exp:excerpt}   Use the default 200 characters
-{exp:excerpt chars='500'}{content}{/exp:excerpt}  Use 500 characters
+* ```{exp:excerpt chars=true}{content}{/exp:excerpt}```   Use the default 200 characters
+* ```{exp:excerpt chars='500'}{content}{/exp:excerpt}```  Use 500 characters
 
-{exp:excerpt words=true}{content}{/exp:excerpt}   Use the default 50 words
-{exp:excerpt words='55'}{content}{/exp:excerpt}   Use 55 words
+* ```{exp:excerpt words=true}{content}{/exp:excerpt}```   Use the default 50 words
+* ```{exp:excerpt words='55'}{content}{/exp:excerpt}```   Use 55 words
 
-{exp:excerpt words='55' more='...'}{content}{/exp:excerpt}   Also change the ellipsis to '...'
+* ```{exp:excerpt words='55' more='...'}{content}{/exp:excerpt}```   Also change the ellipsis to '...'
 
 ##Changelog
 
