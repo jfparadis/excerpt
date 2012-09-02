@@ -34,7 +34,7 @@
  */
 
 $plugin_info = array(
-	'pi_name'			=> 'Excerpt',
+	'pi_name'			=> 'Sk_Excerpt',
 	'pi_version'		=> '1.0.0',
 	'pi_description'	=> 'Displays an automatic excerpt of the given text with [...] at the end',
 );
