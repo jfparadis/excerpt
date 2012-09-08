@@ -1,9 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Excerpt - ExpressionEngine Plugin 
+ * SK Excerpt - ExpressionEngine Plugin 
  *
- * @package			Excerpt
+ * @package			SK Excerpt
  * @version			1.0.0
  * @author			Jean-Francois Paradis - https://github.com/skaimauve
  * @copyright 		Copyright (c) 2012 Jean-Francois Paradis
@@ -34,12 +34,14 @@
  */
 
 $plugin_info = array(
-	'pi_name'			=> 'Sk_Excerpt',
+	'pi_name'			=> 'sk_excerpt',
 	'pi_version'		=> '1.0.0',
+	'pi_author'			=> 'Jean-Francois Paradis',
 	'pi_description'	=> 'Displays an automatic excerpt of the given text with [...] at the end',
+	'pi_usage'			=> 'http://github.com/skaimauve/excerpt'
 );
 
-class Sk_Excerpt {
+class Sk_excerpt {
 
 	const default_word_count = 50;
 	const default_char_count = 200;
@@ -73,7 +75,7 @@ class Sk_Excerpt {
 	/**
 	 * trim_char
 	 *
-	 * Trims text to a certain number of characters, cut around words (multibyte aware)
+	 * Trims text to a certain number of characters, cut around words (multibyte aware).
 	 */
 	
 	public function trim_chars($text, $char_count, $more) 
@@ -123,7 +125,7 @@ class Sk_Excerpt {
 	/**
 	 * strip_tags
 	 *
-	 * Properly strip all HTML tags including script and style
+	 * Properly strip all HTML tags including script and style.
 	 */
 
 	public function strip_tags($text, $remove_breaks = false) {
@@ -143,5 +145,7 @@ class Sk_Excerpt {
 		return trim($text);
 	}
 }
+// END CLASS
 
-/* End of File: pi.summary.php */
+/* End of File: pi.sk_excerpt.php */
+/* Location: ./system/expressionengine/third_party/sk_excerpt/pi.sk_excerpt.php */

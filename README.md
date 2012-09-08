@@ -1,7 +1,7 @@
 #Excerpt - ExpressionEngine Plugin
 
 Version: 1.0.0
-Jean-Francois Paradis - https://github.com/skaimauve
+Jean-Francois Paradis - http://github.com/skaimauve
 Copyright (c) 2012 Jean-Francois Paradis
 MIT License - please see LICENSE file included with this distribution
 http://github.com/skaimauve/excerpt
@@ -20,13 +20,13 @@ end of the excerpt.
 Download the "excerpt" folder and upload it to the third party directory of your ExpressionEngine folder.
 
 ##Usage:
-* ```{exp:sk_excerpt chars=true}{content}{/exp:sk_excerpt}```   Use the default 200 characters
-* ```{exp:sk_excerpt chars='500'}{content}{/exp:sk_excerpt}```  Use 500 characters
+* {exp:sk_excerpt chars='true'}{content}{/exp:sk_excerpt}   Use the default 200 characters
+* {exp:sk_excerpt chars='500'}{content}{/exp:sk_excerpt}    Use 500 characters
 
-* ```{exp:sk_excerpt words=true}{content}{/exp:sk_excerpt}```   Use the default 50 words
-* ```{exp:sk_excerpt words='55'}{content}{/exp:sk_excerpt}```   Use 55 words
+* {exp:sk_excerpt words='true'}{content}{/exp:sk_excerpt}   Use the default 50 words
+* {exp:sk_excerpt words='55'}{content}{/exp:sk_excerpt}     Use 55 words
 
-* ```{exp:sk_excerpt words='55' more='...'}{content}{/exp:sk_excerpt}```   Also change the ellipsis to '...'
+* {exp:sk_excerpt words='55' more='...'}{content}{/exp:sk_excerpt}   Also change the ellipsis to '...'
 
 ##Changelog
 
