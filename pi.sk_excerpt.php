@@ -1,9 +1,9 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Excerpt - ExpressionEngine Plugin 
+ * SK Excerpt - ExpressionEngine Plugin 
  *
- * @package			Excerpt
+ * @package			SK Excerpt
  * @version			1.0.0
  * @author			Jean-Francois Paradis - https://github.com/skaimauve
  * @copyright 		Copyright (c) 2012 Jean-Francois Paradis
@@ -14,11 +14,11 @@
  * allows developers to display a post summary based on the number of words. This implementation
  * can also display a post summary based on a minimum number of characters (in that case, the
  * cut will be done at the next word boundary), which works better with languages like Chinese 
- * for which the concept of words are different. An ellipsis ([...] by default) is added at the
+ * for which the concept of words is different. An ellipsis ([...] by default) is added at the
  * end of the excerpt.
  * 
  * Setup:
- * Download the "excerpt" folder and upload it to the third party directory of your ExpressionEngine folder.
+ * Download the "sk_excerpt" folder and upload it to the third party directory of your ExpressionEngine folder.
  *
  * Usage:
  * {exp:sk_excerpt chars=true}{content}{/exp:sk_excerpt}   Use the default 200 characters
@@ -34,12 +34,14 @@
  */
 
 $plugin_info = array(
-	'pi_name'			=> 'Sk_Excerpt',
+	'pi_name'			=> 'sk_excerpt',
 	'pi_version'		=> '1.0.0',
+	'pi_author'			=> 'Jean-Francois Paradis',
 	'pi_description'	=> 'Displays an automatic excerpt of the given text with [...] at the end',
+	'pi_usage'			=> 'http://github.com/skaimauve/excerpt'
 );
 
-class Sk_Excerpt {
+class Sk_excerpt {
 
 	const default_word_count = 50;
 	const default_char_count = 200;
@@ -73,7 +75,7 @@ class Sk_Excerpt {
 	/**
 	 * trim_char
 	 *
-	 * Trims text to a certain number of characters, cut around words (multibyte aware)
+	 * Trims text to a certain number of characters, cut around words (multibyte aware).
 	 */
 	
 	public function trim_chars($text, $char_count, $more) 
@@ -123,7 +125,7 @@ class Sk_Excerpt {
 	/**
 	 * strip_tags
 	 *
-	 * Properly strip all HTML tags including script and style
+	 * Properly strip all HTML tags including script and style.
 	 */
 
 	public function strip_tags($text, $remove_breaks = false) {
@@ -143,5 +145,7 @@ class Sk_Excerpt {
 		return trim($text);
 	}
 }
+// END CLASS
 
-/* End of File: pi.summary.php */
+/* End of File: pi.sk_excerpt.php */
+/* Location: ./system/expressionengine/third_party/sk_excerpt/pi.sk_excerpt.php */
