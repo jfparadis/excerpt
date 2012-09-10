@@ -15,6 +15,10 @@ cut will be done at the next word boundary), which works better with languages l
 for which the concept of words is different. An ellipsis ([...] by default) is added at the
 end of the excerpt.
 
+If both measures are provided, the algorithm will try to use words, but will switch to 
+character mode if the words are tool long (10 characters per word on average). This will
+prevent extra long excerpts and efficiently detect east-asian languages. 
+
 ##Setup
 
 Download the "sk_excerpt" folder and upload it to the third party directory of your ExpressionEngine folder.
@@ -27,6 +31,8 @@ Download the "sk_excerpt" folder and upload it to the third party directory of y
 * {exp:sk_excerpt words='55'}{content}{/exp:sk_excerpt}     Use 55 words
 
 * {exp:sk_excerpt words='55' more='...'}{content}{/exp:sk_excerpt}   Also change the ellipsis to '...'
+
+* {exp:sk_excerpt chars='500' words='55'}{content}{/exp:sk_excerpt}   Use character mode when words are too long
 
 ##Changelog
 

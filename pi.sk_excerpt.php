@@ -4,47 +4,28 @@
  * SK Excerpt - ExpressionEngine Plugin 
  *
  * @package			SK Excerpt
- * @version			1.0.0
+ * @version			1.1.0
  * @author			Jean-Francois Paradis - https://github.com/skaimauve
- * @copyright 		Copyright (c) 2012 Jean-Francois Paradis
+ * @copyright 	Copyright (c) 2012 Jean-Francois Paradis
  * @license 		MIT License - please see LICENSE file included with this distribution
- * @link			http://github.com/skaimauve/excerpt
+ * @link			  http://github.com/skaimauve/excerpt
  *
- * This plugin provides a similar functionality to the function the_excerpt() in Wordpress which
- * allows developers to display a post summary based on the number of words. This implementation
- * can also display a post summary based on a minimum number of characters (in that case, the
- * cut will be done at the next word boundary), which works better with languages like Chinese 
- * for which the concept of words is different. An ellipsis ([...] by default) is added at the
- * end of the excerpt.
- * 
- * Setup:
- * Download the "sk_excerpt" folder and upload it to the third party directory of your ExpressionEngine folder.
- *
- * Usage:
- * {exp:sk_excerpt chars=true}{content}{/exp:sk_excerpt}   Use the default 200 characters
- * {exp:sk_excerpt chars='500'}{content}{/exp:sk_excerpt}  Use 500 characters
- *
- * {exp:sk_excerpt words=true}{content}{/exp:sk_excerpt}   Use the default 50 words
- * {exp:sk_excerpt words='55'}{content}{/exp:sk_excerpt}   Use 55 words
- *
- * {exp:sk_excerpt words='55' more='...'}{content}{/exp:sk_excerpt}   Also change the ellipsis to '...'
- *
- * Changelog:
- * 1.0.0 - Initial plugin
  */
 
 $plugin_info = array(
-	'pi_name'			=> 'sk_excerpt',
-	'pi_version'		=> '1.0.0',
-	'pi_author'			=> 'Jean-Francois Paradis',
-	'pi_description'	=> 'Displays an automatic excerpt of the given text with [...] at the end',
-	'pi_usage'			=> 'http://github.com/skaimauve/excerpt'
+	'pi_name'			   => 'sk_excerpt',
+	'pi_version'		 => '1.1.0',
+	'pi_author'			 => 'Jean-Francois Paradis',
+	'pi_description' => 'Displays an automatic excerpt of the given text with [...] at the end',
+	'pi_usage'			 => 'http://github.com/skaimauve/excerpt'
 );
 
 class Sk_excerpt {
 
 	const default_word_count = 50;
 	const default_char_count = 200;
+
+	const threshold_char_per_word = 10;
 
 	const default_more = '&nbsp;[&hellip;]';
 
@@ -59,15 +40,21 @@ class Sk_excerpt {
 
 		$this->EE =& get_instance();
 
+		// Parameters
+
 		$chars = $this->EE->TMPL->fetch_param('chars');
 		$words = $this->EE->TMPL->fetch_param('words');
 		$more = $this->EE->TMPL->fetch_param('more');
-
-		if ($chars) $this->return_data = $this->trim_chars( $this->EE->TMPL->tagdata, $chars, $more );
-		if ($words) $this->return_data = $this->trim_words( $this->EE->TMPL->tagdata, $words, $more );
-		if (!$chars & !$words) $this->return_data = $this->EE->TMPL->tagdata;
 		
-		return $this->return_data;
+		// Processing & return early
+
+		if (!empty($chars) && empty($words)) return $this->return_data = $this->trim_chars( $this->EE->TMPL->tagdata, $chars, $more );
+		if (!empty($words) && empty($chars)) return $this->return_data = $this->trim_words( $this->EE->TMPL->tagdata, $words, $more );
+		
+		// Defaults to count
+				
+		return $this->return_data = $this->trim_count( $this->EE->TMPL->tagdata, $chars, $words, $more );
+		
 	}
 
 	// --------------------------------------------------------------------
@@ -83,11 +70,20 @@ class Sk_excerpt {
 		if (!($char_count > 0)) $char_count = self::default_char_count;
 		if (empty($more)) $more = self::default_more;
 	
-		$text = $this->strip_tags( $text );
+		// Remove HTML and line breaks.
+		$text = $this->strip_tags( $text, true );
 
-		if ( mb_strlen($text) > $char_count ) {
-			
-			$text = mb_substr($text, 0, $char_count) . preg_replace('/^([^\n\r\t ]*).*$/','$1',mb_substr($text, $char_count)) . $more;
+		// Find the next position of a space.
+		$pos =	mb_strpos($text,' ', $char_count);
+
+    // Set a default
+		if ($pos == 0) {
+  		$pos = $char_count;
+		}
+
+		// Do we need to cut?
+		if ($pos < mb_strlen($text)) {
+			$text = mb_substr($text, 0, $pos) . $more;
 		}
 
 		return $text;
@@ -96,7 +92,7 @@ class Sk_excerpt {
 	// --------------------------------------------------------------------
 
 	/**
-	 * _trim_words
+	 * trim_words
 	 *
 	 * Trims text to a certain number of words.
 	 */
@@ -106,16 +102,56 @@ class Sk_excerpt {
 		if (!($word_count > 0)) $word_count = self::default_word_count;
 		if (empty($more)) $more = self::default_more;
 	
-		$text = $this->strip_tags( $text );
+		// Remove HTML and line breaks.
+		$text = $this->strip_tags( $text, true );
 
-		$words_array = preg_split( '/[\n\r\t ]+/', $text, $word_count + 1, PREG_SPLIT_NO_EMPTY );
+		// Find the position of the nth occurence of a space.
+		$pos = $this->mb_strnpos($text, ' ', $word_count);
+		
+		// Do we need to cut?
+		if ($pos > 0 && $pos < mb_strlen($text)) {
+  		$text = mb_substr($text, 0, $pos) . $more;
+    }
 
-		if ( count( $words_array ) > $word_count ) {
-			array_pop( $words_array );
-			$text = implode( ' ', $words_array ) . $more;
-		} else {
-			$text = implode( ' ', $words_array );
+		return $text;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * trim_count
+	 *
+	 * Trims text to a certain number of words, switch to characters if 
+	 * more average than a number of characters per word.
+	 */
+	
+	public function trim_count($text, $char_count, $word_count, $more) 
+	{
+		if (!($char_count > 0)) $char_count = self::default_char_count;
+		if (!($word_count > 0)) $word_count = self::default_word_count;
+		if (empty($more)) $more = self::default_more;
+	
+		// Remove HTML and line breaks.
+		$text = $this->strip_tags( $text, true );
+
+		// Find the position of the nth occurence of a space.
+		$pos = $this->mb_strnpos($text, ' ', $word_count);
+
+		// Are the words too long?
+		if ($pos/$count > self::threshold_char_per_word ) {
+		  // Re-cut using characters
+  		$pos =	mb_strpos($text,' ', $char_count);
 		}
+
+    // Set a default
+		if ($pos == 0) {
+  		$pos = $char_count;
+		}
+
+		// Do we need to cut?
+		if ($pos < mb_strlen($text)) {
+  		$text = mb_substr($text, 0, $pos) . $more;
+   }
 
 		return $text;
 	}
@@ -144,6 +180,25 @@ class Sk_excerpt {
 	
 		return trim($text);
 	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * strnpos
+	 *
+	 * Find the position of nth needle in haystack.
+	 */
+
+  public function mb_strnpos($haystack, $needle, $occurrence, $pos = 0) {
+
+      while ($occurrence > 0) {
+        $pos = mb_strpos($haystack, $needle, $pos);
+        $occurrence--;
+        if ($occurrence > 0) $pos++;
+      }
+
+      return $pos;
+  }
 }
 // END CLASS
 
