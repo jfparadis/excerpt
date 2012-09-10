@@ -137,9 +137,9 @@ class Sk_excerpt {
 		// Find the position of the nth occurence of a space.
 		$pos = $this->mb_strnpos($text, ' ', $word_count);
 
-		// Are the words too long?
+		// Are the words too long? 
 		if ($pos/$count > self::threshold_char_per_word ) {
-		  // Re-cut using characters
+		  // Re-cut using characters mode
   		$pos =	mb_strpos($text,' ', $char_count);
 		}
 
