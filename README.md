@@ -1,6 +1,6 @@
 #Excerpt - ExpressionEngine Plugin
 
-Version: 1.0.0<br />
+Version: 1.1.0<br />
 Jean-Francois Paradis - http://github.com/skaimauve<br />
 Copyright (c) 2012 Jean-Francois Paradis<br />
 MIT License - please see LICENSE file included with this distribution<br />
@@ -36,4 +36,5 @@ Download the "sk_excerpt" folder and upload it to the third party directory of y
 
 ##Changelog
 
+1.1.0 - Added detection of East Asian language
 1.0.0 - Initial plugin
