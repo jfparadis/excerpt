@@ -73,18 +73,23 @@ class Sk_excerpt {
 		// Remove HTML and line breaks.
 		$text = $this->strip_tags( $text, true );
 
-		// Find the next position of a space.
-		$pos =	mb_strpos($text,' ', $char_count);
+		// $text still too long? 
+		// Note: max offset of mb_strpos is mb_strlen
+		if ($char_count < mb_strlen($text)) {
 
-    // Set a default
-		if ($pos == 0) {
-  		$pos = $char_count;
-		}
-
-		// Do we need to cut?
-		if ($pos < mb_strlen($text)) {
-			$text = mb_substr($text, 0, $pos) . $more;
-		}
+  		// Find the next position of a space.
+  		$pos =	mb_strpos($text,' ', $char_count);
+  
+      // Set a default
+  		if ($pos == 0) {
+    		$pos = $char_count;
+  		}
+  
+  		// Do we need to cut?
+  		if ($pos < mb_strlen($text)) {
+  			$text = mb_substr($text, 0, $pos) . $more;
+  		}
+    }
 
 		return $text;
 	}
@@ -138,7 +143,8 @@ class Sk_excerpt {
 		$pos = $this->mb_strnpos($text, ' ', $word_count);
 
 		// Are the words too long? 
-		if ($pos/$count > self::threshold_char_per_word ) {
+		// Note: $pos/$word_count is the average number of character per word
+		if ($pos/$word_count > self::threshold_char_per_word ) {
 		  // Re-cut using characters mode
   		$pos =	mb_strpos($text,' ', $char_count);
 		}
